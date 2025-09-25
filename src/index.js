@@ -28,7 +28,7 @@ const generateAIResponse = async (prompt) => {
     return response;
 }
 
-app.post("/offer", (req, res) => {
+app.post("/offers", (req, res) => {
   const { name, value_props, ideal_use_cases } = req.body;
   product = { name, value_props, ideal_use_cases };
   res.json({ message: "Product information received", product });
