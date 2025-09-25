@@ -191,6 +191,33 @@ app.post("/score", (req, res) => {
   res.json({ results });
 });
 
+app.get("/results", (req, res) => {
+    if (results.length === 0) {
+        return res.status(400).send("No results available. Please score leads first.");
+    }
+
+    // Format results for output
+    const formattedResults = results.map(r => ({
+        name: r.name,
+        role: r.role,
+        company: r.company,
+        intent: r.ai_layer?.intent || "",
+        score: r.total_score,
+        reasoning: r.ai_layer?.explanation || ""
+    }));
+
+    // Convert to CSV
+    const parser = new Parser({ fields: ["name", "role", "company", "intent", "score", "reasoning"] });
+    const csvOutput = parser.parse(formattedResults);
+
+    res.json({
+        results: formattedResults,
+    });
+    res.header("Content-Type", "text/csv");
+    res.attachment("results.csv");
+    res.send(csvOutput);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
