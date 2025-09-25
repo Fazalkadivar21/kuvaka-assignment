@@ -4,6 +4,9 @@ const fs = require("fs");
 const multer = require("multer");
 const { GoogleGenAI } = require("@google/genai");
 const { Parser } = require("json2csv");
+const dotendv = require("dotenv");
+dotendv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
