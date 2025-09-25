@@ -15,6 +15,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const upload = multer({ dest: "uploads/" });
 
+const ai = new GoogleGenAI({});
+
+const generateAIResponse = async (prompt) => {
+    const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: prompt,
+    });
+    return response;
+}
+
 app.post("/offer", (req, res) => {
   const { name, value_props, ideal_use_cases } = req.body;
   product = { name, value_props, ideal_use_cases };
